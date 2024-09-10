@@ -1,0 +1,9 @@
+<div>
+    <h2>Manage Subjects</h2>
+    <ul>
+      @for (subject of subjects; track subject.id) {
+        <li>{{ subject.name }}</li>
+      }
+    </ul>
+    <button (click)="addSubject()">Add Subject</button>
+  </div>

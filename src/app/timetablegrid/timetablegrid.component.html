@@ -1,0 +1,22 @@
+<!-- timetable-grid.component.html -->
+<div class="timetable">
+    <table>
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th *ngFor="let day of days">{{ day }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let time of times; let i = index">
+          <td>{{ time }}</td>
+          <td *ngFor="let day of days; let j = index"
+              cdkDropList
+              (cdkDropListDropped)="drop($event, i, j)">
+            <div *ngIf="schedule[i][j]">{{ schedule[i][j] }}</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

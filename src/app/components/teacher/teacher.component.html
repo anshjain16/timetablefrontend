@@ -1,0 +1,13 @@
+<div>
+    <h2>Manage Teachers</h2>
+    <ul>
+      @for (teacher of teachers; track teacher.id) {
+        <li>{{ teacher.name }}</li>
+      }
+    </ul>
+    <label>Enter Teacher Name: </label>
+    <input type="text" id="tname" name="tname" class="form-control"
+    required minlength="4"
+    #inputField>
+    <button (click)="addTeacher(inputField.value)">Add Teacher</button>
+</div>

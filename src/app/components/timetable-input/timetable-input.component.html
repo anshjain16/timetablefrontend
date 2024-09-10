@@ -1,0 +1,19 @@
+<form [formGroup]="timetableForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Enter Class</mat-label>
+      <input matInput formControlName="class" placeholder="e.g., 2nd year">
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Enter Teacher Name</mat-label>
+      <input matInput formControlName="teacher" placeholder="e.g., John Doe">
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Enter Room</mat-label>
+      <input matInput formControlName="room" placeholder="e.g., Room 101">
+    </mat-form-field>
+  
+    <button mat-raised-button type="submit">Next</button>
+  </form>
+  

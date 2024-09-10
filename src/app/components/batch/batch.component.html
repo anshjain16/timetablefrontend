@@ -1,0 +1,9 @@
+<div>
+    <h2>Manage Batches</h2>
+    <ul>
+      @for (batch of batches; track batch.id) {
+        <li>{{ batch.name }}</li>
+      }
+    </ul>
+    <button (click)="addBatch()">Add Batch</button>
+  </div>

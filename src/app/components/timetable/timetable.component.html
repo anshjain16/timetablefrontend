@@ -1,0 +1,21 @@
+<div class="schedule-container">
+  <h2>{{ class }} Timetable</h2>
+  <div class="grid">
+    <div class="grid-row" *ngFor="let hour of hours">
+      <div class="grid-cell" *ngFor="let day of days">
+        <!-- Drop Area for Timetable -->
+        <div cdkDropList [cdkDropListData]="timetable[day][hour]" class="dropzone" (cdkDropListDropped)="drop($event)">
+          <div *ngFor="let item of timetable[day][hour]" cdkDrag>{{ item }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Side Panel for Classes to be Scheduled -->
+  <div class="side-panel">
+    <h3>Classes to Schedule</h3>
+    <div cdkDropList class="class-list" (cdkDropListDropped)="drop($event)">
+      <div *ngFor="let classToSchedule of classesToSchedule" cdkDrag>{{ classToSchedule }}</div>
+    </div>
+  </div>
+</div>

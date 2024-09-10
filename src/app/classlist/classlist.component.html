@@ -1,0 +1,9 @@
+<!-- class-list.component.html -->
+<div class="class-list">
+    <div *ngFor="let class of classes" cdkDrag>
+      <h3>{{ class.name }}</h3>
+      <p>{{ class.code }} - {{ class.instructor }}</p>
+      <small>{{ class.time }}</small>
+    </div>
+  </div>
+  

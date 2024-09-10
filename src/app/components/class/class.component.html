@@ -1,0 +1,9 @@
+<div>
+    <h2>Manage Classes</h2>
+    <ul>
+      @for (class of classes; track class.id) {
+        <li>{{ class.name }}</li>
+      }
+    </ul>
+    <button (click)="addClass()">Add Class</button>
+  </div>

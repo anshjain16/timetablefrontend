@@ -1,0 +1,9 @@
+<div>
+    <h2>Manage Rooms</h2>
+    <ul>
+      @for (room of rooms; track room.id) {
+        <li>{{ room.name }}</li>
+      }
+    </ul>
+    <button (click)="addRoom()">Add Room</button>
+  </div>
