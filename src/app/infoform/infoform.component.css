@@ -8,3 +8,40 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+.grid{
+    display: flex;
+    flex-direction: row;
+}
+
+.day{
+    display: flex;
+    flex-direction: column;
+}
+
+.slotHolder{
+    border: solid 1px;
+    width: 200px;
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.slot{
+    width: 100px;
+    height: 70px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    /* border: solid 1px; */
+}
+
+.slotHolderGrid{
+    border: solid 1px;
+    width: 200px;
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+    /* position: relative; */
+}

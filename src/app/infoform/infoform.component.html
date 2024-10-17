@@ -1,7 +1,16 @@
 <div class="wrapper">
-    <div>the grid layout of the timetable will be shown here</div>
+    <div class="grid">
+        <div *ngFor="let day of days" class="day">
+            <div *ngFor="let slot of timeSlots" class="timeslot">
+                <div class="slotHolder" (dragover)="allowDrop($event, slot, day)" (drop)="drop($event, slot, day)">  </div>
+            </div>
+        </div>
+    </div>
     <div class="infoWrapper">
-        <div>some info about the class will be shown here</div>
+        <div class="slotHolder" *ngFor="let slot of ttSlots, let index = index">
+            <div class="slot" draggable="true" (dragstart)="drag($event)" [id]="'slot'+slot.name+index+index2" *ngFor="let i of getNumberArray(slot.num_lectures), let index2 = index">slot info</div>
+            <!-- <div class="slot" draggable="true" (dragstart)="drag($event)" id="slot2">slot info2</div> -->
+        </div>
         <div>collect info
             <div class="iform">
                 <div >

@@ -23,6 +23,8 @@ export class InfoformComponent {
   teachers = this.dataService.getTeachers();
   rooms = this.dataService.getRooms();
   ttSlots: any;
+  days = ['Monday', "Tuesday", "Wednesday", "Thursday", "Friday"]
+  timeSlots = ["9:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00", "12:00 - 1:00", "1:00 - 2:00", "2:00 - 3:00", "3:00 - 4:00", "4:00 - 5:00", "5:00 - 6:00"];
   // availableSlots: 
   
   subjectForSlots: Slot[] = []
@@ -85,7 +87,7 @@ export class InfoformComponent {
     // let batchesArr = batches.value.split(",");
     // console.log(teacher.value, room.value, batchwise, lectures, batchesArr, subject, subject.slot_id)
     const batchesArr = (document.getElementById(`batch${subject.name}${subject.slot_id}`) as HTMLInputElement)?.value.split(",")
-    console.log(batchesArr)
+    // console.log(batchesArr)
     subject.teacher = teacher.value;
     subject.batches = batchesArr;
     subject.batchwise = batchwise.checked;
@@ -97,7 +99,32 @@ export class InfoformComponent {
     })
     this.ttSlots = this.dataService.getTimetableSlots(this.class).subjects
   }
+  
 
+  drag(ev: any): void {
+    // ev.preventDefault();
+    ev.dataTransfer.setData("text", ev.target.id)
+  }
+
+  allowDrop(ev : any, slot: string, day: string) {
+    ev.preventDefault();
+    // var data = ev.dataTransfer.getData("text");
+    // var ele = document.getElementById(data) as HTMLDivElement;
+    // console.log()
+  }
+
+  drop(ev: any, slot: string, day: string) {
+    ev.preventDefault();
+    console.log(slot, day)
+    var data = ev.dataTransfer.getData("text");
+    console.log(data)
+    ev.target.appendChild(document.getElementById(data));
+  }
+
+
+  getNumberArray(num: number): number[] {
+    return Array(num).fill(0).map((x, i) => i);
+  }
 
 
 }
