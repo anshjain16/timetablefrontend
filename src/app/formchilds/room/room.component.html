@@ -1,0 +1,14 @@
+<div class="wrapper">
+    <div class="input">
+        <h4>Add room</h4>
+        <label for="room">room name:</label>
+        <input type="text" name="room" #roomName>
+        <label for="quantity">quantity:</label>
+        <input type="text" name="quantity" #quantity>
+        <button (click)="addRoom(quantity, roomName)">Add Room</button>
+    </div>
+    <div class="info">
+        <h4>rooms</h4>
+        <div *ngFor="let room of rooms">{{room.name}}</div>
+    </div>
+</div>

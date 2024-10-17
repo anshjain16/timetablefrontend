@@ -1,0 +1,12 @@
+<div class="wrapper">
+    <div class="input">
+        <h4>Add Teacher</h4>
+        <label for="teacher">teacher name:</label>
+        <input type="text" name="teacher" #teacherName>
+        <button (click)="addTeacher(teacherName.value, teacherName)">Add Teacher</button>
+    </div>
+    <div class="info">
+        <h4>Teachers</h4>
+        <div *ngFor="let teacher of teachers">{{teacher.name}}</div>
+    </div>
+</div>

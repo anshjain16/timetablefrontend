@@ -1,0 +1,10 @@
+.moreInfo {
+    display: flex;
+    flex-direction: row;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

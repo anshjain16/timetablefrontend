@@ -1,0 +1,14 @@
+<div class="wrapper">
+    <div class="input">
+        <h4>Add class</h4>
+        <label for="class">class name:</label>
+        <input type="text" name="class" #className>
+        <label for="batches">batches:</label>
+        <input type="text" name="batches" #batches>
+        <button (click)="addClass(batches, className)">Add class</button>
+    </div>
+    <div class="info">
+        <h4>class</h4>
+        <div *ngFor="let class of classes">{{class.name}}</div>
+    </div>
+</div>

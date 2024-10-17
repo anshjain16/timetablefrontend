@@ -1,0 +1,12 @@
+<div class="wrapper">
+    <div class="input">
+        <h4>Add Subject</h4>
+        <label for="subject">subject name:</label>
+        <input type="text" name="subject" #subjectName>
+        <button (click)="addSubject(subjectName)">Add subject</button>
+    </div>
+    <div class="info">
+        <h4>subjects</h4>
+        <div *ngFor="let subject of subjects">{{subject.name}}</div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="wrapper">
+    <div>the grid layout of the timetable will be shown here</div>
+    <div class="infoWrapper">
+        <div>some info about the class will be shown here</div>
+        <div>collect info
+            <div class="iform">
+                <div >
+                    <div *ngFor="let subject of subjectForSlots" class="moreInfo">
+                        <div>{{subject.name}}</div>
+                        <select name="teacher" id="tselector" #teacher>
+                            <option value="" selected disabled hidden>Choose Faculty</option>
+                            <option *ngFor="let teacher of teachers" [value]="teacher.name">{{teacher.name}}</option>
+                        </select>
+                        <select name="room" id="rselector" #room>
+                            <option value="" selected disabled hidden>Choose Room</option>
+                            <option *ngFor="let room of rooms" [value]="room.name">{{room.name}}</option>
+                        </select>
+                        <select name="lectures" id="lselector" #lectures>
+                            <option value="" selected disabled hidden>Choose lectures per week</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                        <label for="batchwise">batchwise: </label>
+                        <input type="checkbox" placeholder="batchwise?" #batchwise [checked] = "subject.batchwise" (change) = "onBatchwiseChange(subject.name, batchwise)">
+                        <div *ngIf="subject.batchwise">
+                            <label for="batches">Enter Batch Names (comma-separated):</label>
+                            <input type="text" [id]="'batch' + subject.name + subject.slot_id" #batches name="batches">
+                        </div>
+                        <button (click)="createSlot(teacher, room, batchwise, lectures, subject)">Make Slot</button>
+                    </div>
+                </div>
+                <label for="course">Select Course: </label>
+                <select name="course" id="cselector" #subject>
+                    <option *ngFor="let subject of availableSubjects" [value]="subject.name">{{subject.name}}</option>
+                </select>
+                <button (click)="addSubject(subject)">Select for slot</button>
+            </div>
+        </div>
+    </div>
+</div>

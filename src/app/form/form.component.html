@@ -1,0 +1,7 @@
+<p>form works!</p>
+<!-- <p>{{teacherName}}</p> -->
+<!-- <div class="tab"> -->
+    <button *ngFor="let section of sections" (click)="setTab(section)">{{section}}</button>
+<!-- </div> -->
+
+<router-outlet></router-outlet>
