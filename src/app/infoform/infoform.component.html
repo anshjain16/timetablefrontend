@@ -1,14 +1,39 @@
+<p>{{class}}</p>
 <div class="wrapper">
     <div class="grid">
         <div *ngFor="let day of days" class="day">
             <div *ngFor="let slot of timeSlots" class="timeslot">
-                <div class="slotHolder" (dragover)="allowDrop($event, slot, day)" (drop)="drop($event, slot, day)">  </div>
+                <div class="slotHolderGrid" (dragover)="allowDrop($event, slot, day)" (drop)="drop($event, slot, day)" [id]="day+'#'+slot">
+                    <div class="slotsss" [id]="day+'#'+slot" *ngIf="uniqueSlotCombinations[day + '#' + slot] && uniqueSlotCombinations[day + '#' + slot].length > 0">
+                        <div
+                            class="slot"
+                            draggable="true"
+                            (dragstart)="drag($event, idx)"
+                            [id]="'slot-' + day + '-' + slot+idx"
+                            *ngFor="let idx of uniqueSlotCombinations[day + '#' + slot]"
+                        >
+                            <div>{{ttSlots[idx].name}}</div>
+                            <div>{{ttSlots[idx].teacher}}</div>
+                            <div *ngIf="ttSlots[idx].batchwise" class="batchSlot">
+                                <div *ngFor="let batch of ttSlots[idx].batches">{{batch}},</div>
+                            </div>
+                            <div>{{ttSlots[idx].room}}</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="infoWrapper">
         <div class="slotHolder" *ngFor="let slot of ttSlots, let index = index">
-            <div class="slot" draggable="true" (dragstart)="drag($event)" [id]="'slot'+slot.name+index+index2" *ngFor="let i of getNumberArray(slot.num_lectures), let index2 = index">slot info</div>
+            <div class="slot" draggable="true" (dragstart)="drag($event, index)" [id]="'slot'+slot.name+'-'+index+'-'+index2" *ngFor="let i of getNumberArray(toAllocate[index]), let index2 = index">
+                <div>{{slot.name}}</div>
+                <div>{{slot.teacher}}</div>
+                <div *ngIf="slot.batchwise" class="batchSlot">
+                    <div *ngFor="let batch of slot.batches">{{batch}},</div>
+                </div>
+                <div>{{slot.room}}</div>
+            </div>
             <!-- <div class="slot" draggable="true" (dragstart)="drag($event)" id="slot2">slot info2</div> -->
         </div>
         <div>collect info
@@ -48,4 +73,7 @@
             </div>
         </div>
     </div>
+</div>
+<div>
+    <button (click)="saveTimetable()">Save Timetable</button>
 </div>

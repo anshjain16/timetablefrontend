@@ -22,7 +22,7 @@
 .slotHolder{
     border: solid 1px;
     width: 200px;
-    height: 70px;
+    height: 75px;
     display: flex;
     flex-direction: row;
     position: relative;
@@ -30,7 +30,9 @@
 
 .slot{
     width: 100px;
-    height: 70px;
+    height: 75px;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     position: absolute;
@@ -40,8 +42,13 @@
 .slotHolderGrid{
     border: solid 1px;
     width: 200px;
-    height: 70px;
+    height: 75px;
     display: flex;
     flex-direction: row;
     /* position: relative; */
+}
+
+.batchSlot{
+    display: flex;
+    float: row;
 }

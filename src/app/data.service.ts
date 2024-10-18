@@ -98,4 +98,33 @@ export class DataService {
         return required_timetables[0];
     }
 
+    saveTimetable(classname: string, slots: []){
+        const stored_timetables = sessionStorage.getItem('timetables');
+        const timetables = stored_timetables ? JSON.parse(stored_timetables) as Timetable[] : [] as Timetable[];
+        // console.log(timetables)
+        let required_timetables = timetables.filter(tt => tt.class_name == classname);
+        required_timetables[0].subjects = slots
+        var newtt = timetables.filter(tt => tt.class_name != classname);
+        newtt.push(required_timetables[0]);
+        sessionStorage.setItem("timetables", JSON.stringify(newtt));
+    }
+
+    getDataForTimeSlots(day: string, time: string, classname: string){
+        const stored_timetables = sessionStorage.getItem('timetables');
+        const timetables = stored_timetables ? JSON.parse(stored_timetables) as Timetable[] : [] as Timetable[];
+        const required_timetables = timetables.filter(tt => tt.class_name != classname);
+        const result = required_timetables
+            .map(tt => {
+                return tt.subjects.filter(subject => 
+                    subject.slots.some(slot => slot.day === day && slot.time_slot === time)
+                ).map(subject => ({
+                    teacher: subject.teacher,
+                    room: subject.room
+                }));
+            })
+            .flat();
+        // console.log(result);
+        return result;
+    }
+
 }

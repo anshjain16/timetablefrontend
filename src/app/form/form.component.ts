@@ -24,8 +24,12 @@ export class FormComponent {
   dataService = inject(DataService)
   sections = ["teacher", "class", "room", "subject"]
   active_section = this.sections[0]
+  classes = this.dataService.getClasses();
 
   setTab(tabname: string) {
     this.router.navigate([`/${tabname}`]);
+  }
+  setClass(classname: any){
+    this.router.navigate([`/info/${classname.name}`]);
   }
 }
