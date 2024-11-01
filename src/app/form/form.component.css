@@ -1,4 +1,35 @@
-.tab{
+.tab {
     display: flex;
     flex-direction: row;
+    /* width: 70%; */
+    width: 200;
+    padding: 10px; /* Adds internal padding around the container */
+    background-color: #f9f9f9; /* Soft background for the tab container */
+    border-radius: 8px; /* Rounded corners for a softer look */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+button {
+    padding: 10px 16px;
+    color: #fff;
+    background-color: #4CAF50; /* Green button color */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #45a049; /* Slightly darker green on hover */
+}
+
+.tab button:last-child {
+    margin-right: 0; /* Remove margin from the last button */
+}
+
+
+.tab button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* Highlight focus for accessibility */
 }

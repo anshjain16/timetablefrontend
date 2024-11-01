@@ -27,9 +27,9 @@ export class FormComponent {
   classes = this.dataService.getClasses();
 
   setTab(tabname: string) {
-    this.router.navigate([`/${tabname}`]);
+    this.router.navigate([`/user/${tabname}`]);
   }
   setClass(classname: any){
-    this.router.navigate([`/info/${classname.name}`]);
+    this.router.navigate([`/user/info/${classname.name}`]);
   }
 }

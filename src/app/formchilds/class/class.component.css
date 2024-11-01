@@ -1,7 +1,62 @@
-.wrapper{
+.wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 50%;
-    padding-left: 50px;
+    height: 100vh;
+    padding: 20px; /* Adds padding around the wrapper for breathing space */
+    background-color: #f9f9f9; /* Soft background to separate from page background */
+    border-radius: 8px; /* Rounded corners for a card-like feel */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.input, .info {
+    width: 48%; /* Make both sections evenly spaced within the wrapper */
+}
+
+.input h4, .info h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px; /* Space between labels and inputs */
+    font-weight: 500;
+    color: #555;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px; /* Space between inputs */
+    font-size: 1rem;
+}
+
+button {
+    padding: 10px 16px;
+    color: #fff;
+    background-color: #4CAF50; /* Subtle green button color */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #45a049; /* Slightly darker green on hover */
+}
+
+.info div {
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd; /* Divider for each class name */
+    color: #333;
+}
+
+.info div:last-child {
+    border-bottom: none; /* Remove border from the last item */
 }
