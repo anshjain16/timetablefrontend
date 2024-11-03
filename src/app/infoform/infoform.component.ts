@@ -1,15 +1,16 @@
 import { Component, inject } from '@angular/core';
-import { NgFor, NgIf, NgStyle } from '@angular/common';
+import { NgFor, NgIf, NgStyle, NgClass } from '@angular/common';
 import { DataService } from '../data.service';
 import { Subject } from '../Subject';
 import { ActivatedRoute } from '@angular/router';
 import { Slot } from '../Slot';
 import { Timetable } from '../Timetable';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-infoform',
   standalone: true,
-  imports: [NgFor, NgIf, NgStyle],
+  imports: [NgFor, NgIf, NgStyle, NgClass],
   templateUrl: './infoform.component.html',
   styleUrl: './infoform.component.css',
   providers: [DataService]
@@ -40,6 +41,7 @@ export class InfoformComponent {
     this.route.params.subscribe(params => {
       this.class = params['classname']
     })
+  
     console.log(this.class);
     this.ttSlots = this.dataService.getTimetableSlots(this.class) ? this.dataService.getTimetableSlots(this.class).subjects : [];
     console.log(this.ttSlots)
@@ -177,7 +179,7 @@ export class InfoformComponent {
 
           if (slot.batchwise && currentSlot.batchwise) {
               const commonBatches = slot.batches.filter((batch: string) =>
-                  slot.batches.includes(batch)
+                  currentSlot.batches.includes(batch)
               );
               if (commonBatches.length > 0) {
                   batchConflict = true;
@@ -282,6 +284,60 @@ export class InfoformComponent {
 
   saveTimetable(){
     this.dataService.saveTimetable(this.class, this.ttSlots);
+  }
+
+
+  exportTimetableToExcel() {
+    const sheetData: any[][] = [];
+    sheetData.push(['Day', ...this.timeSlots]); 
+
+    this.days.forEach(day => {
+      const row = [day]; 
+
+      this.timeSlots.forEach(slot => {
+        const slotKey = `${day}#${slot}`;
+        if (this.uniqueSlotCombinations[slotKey]?.length) {
+          const slotDetails = this.uniqueSlotCombinations[slotKey].map(idx => {
+            const slot = this.ttSlots[idx];
+            
+            const batchInfo = slot.batchwise ? slot.batches.join(', ') : '';
+            return [slot.name, slot.teacher, batchInfo, slot.room];
+          });
+
+          
+          const flattenedDetails = slotDetails.flat().filter(detail => detail).join('\n');
+          row.push(flattenedDetails);
+        } else {
+          row.push('');
+        }
+      });
+
+      sheetData.push(row);
+    });
+
+    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Timetable');
+
+    
+    const colWidths = [
+      { wpx: 100 },
+      ...this.timeSlots.map(() => ({ wpx: 150 })) 
+    ];
+    ws['!cols'] = colWidths;
+
+    const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Timetable.xlsx';
+    document.body.appendChild(a);
+    a.click();
+
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
   }
 
 }

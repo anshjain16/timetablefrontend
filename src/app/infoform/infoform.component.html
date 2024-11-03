@@ -15,6 +15,11 @@
                     <div class="slotsss" [id]="day+'#'+slot" *ngIf="uniqueSlotCombinations[day + '#' + slot] && uniqueSlotCombinations[day + '#' + slot].length > 0">
                         <div
                             class="slot"
+                            [ngClass]="{
+                                'slot-single-batch': ttSlots[idx].batchwise && ttSlots[idx].batches.length === 1,
+                                'slot-two-batch': ttSlots[idx].batchwise && ttSlots[idx].batches.length === 2,
+                                'slot-full-width': !ttSlots[idx].batchwise
+                            }"
                             draggable="true"
                             (dragstart)="drag($event, idx)"
                             [id]="'slot-' + day + '-' + slot+idx"
@@ -23,7 +28,7 @@
                             <div>{{ttSlots[idx].name}}</div>
                             <div>{{ttSlots[idx].teacher}}</div>
                             <div *ngIf="ttSlots[idx].batchwise" class="batchSlot">
-                                <div *ngFor="let batch of ttSlots[idx].batches">{{batch}},</div>
+                                <span *ngFor="let batch of ttSlots[idx].batches">{{batch}},</span>
                             </div>
                             <div>{{ttSlots[idx].room}}</div>
                         </div>
@@ -95,7 +100,9 @@
 </div>
 <div>
     <button (click)="saveTimetable()">Save Timetable</button>
+    <button (click)="exportTimetableToExcel()">Export Timetable to Excel</button>
 </div>
+
 
 <div *ngIf="showConflictTooltip" [ngStyle]="{'top.px': tooltipPosition.y, 'left.px': tooltipPosition.x}" class="tooltip">
     {{ conflictMessage }}
