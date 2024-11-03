@@ -6,7 +6,7 @@
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     margin-bottom: 15px;
-    /* overflow: hidden; Prevents overflow of content */
+    
 }
 
 .grid {
@@ -14,7 +14,7 @@
     flex-direction: row;
     gap: 5px;
     padding-right: 20px;
-    /* flex: 1; Allows grid to take remaining space */
+    
 }
 
 .day {
@@ -25,8 +25,8 @@
 
 .slotHolder {
     border: 1px solid #ccc;
-    width: 180px; /* Slightly reduced width */
-    height: 65px; /* Slightly reduced height */
+    width: 180px; 
+    height: 65px; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -43,7 +43,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    font-size: 0.85rem; /* Slightly reduced font size */
+    font-size: 0.85rem; 
     padding: 4px;
     text-align: center;
     border-radius: 4px;
@@ -51,8 +51,8 @@
 
 .slotHolderGrid {
     border: 1px solid #ddd;
-    width: 180px; /* Slightly reduced width */
-    height: 65px; /* Slightly reduced height */
+    width: 180px; 
+    height: 65px; 
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -65,29 +65,29 @@
 .infoWrapper {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Increased gap for better spacing */
-    width: 240px; /* Adjusted width for a compact look */
-    padding: 10px; /* Added padding for inner spacing */
-    background-color: #fff; /* White background for contrast */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Subtle shadow for elevation */
+    gap: 10px; 
+    width: 240px; 
+    padding: 10px; 
+    background-color: #fff; 
+    border-radius: 8px; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); 
 }
 
 .moreInfo {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    gap: 6px; /* Reduced space between form elements */
-    padding: 8px; /* Increased padding for comfort */
-    background-color: #f9f9f9; /* Light background for form items */
+    gap: 6px; 
+    padding: 8px; 
+    background-color: #f9f9f9; 
     border: 1px solid #ddd;
     border-radius: 4px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Light shadow */
-    transition: box-shadow 0.2s ease; /* Smooth transition effect */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); 
+    transition: box-shadow 0.2s ease; 
 }
 
 .moreInfo:hover {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Elevate on hover */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
 }
 
 label {
@@ -98,15 +98,15 @@ label {
 
 select, input[type="text"], input[type="checkbox"] {
     padding: 3px;
-    font-size: 0.85rem; /* Slightly reduced font size */
+    font-size: 0.85rem; 
     border: 1px solid #ccc;
     border-radius: 4px;
     margin-right: 6px;
 }
 
 button {
-    padding: 5px 8px; /* Reduced padding for tighter fit */
-    font-size: 0.85rem; /* Slightly reduced font size */
+    padding: 5px 8px; 
+    font-size: 0.85rem; 
     color: #fff;
     background-color: #4CAF50;
     border: none;
@@ -146,7 +146,7 @@ button:hover {
 
 .slot-value {
     font-weight: 500;
-    font-size: 0.85rem; /* Slightly reduced font size */
+    font-size: 0.85rem; 
     color: #333;
     background-color: #eaf4ff;
     border: 1px solid #bbb;
@@ -154,9 +154,35 @@ button:hover {
     text-align: center;
     margin: 9px 0;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    width: 180px; /* Match the width of slotHolderGrid */
-    height: 65px;  /* Match the height of slotHolderGrid */
+    width: 180px; 
+    height: 65px;  
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
+
+.iform {
+    display: flex;
+    flex-direction: column; 
+    width: 100%; 
+    max-width: 200px; 
+    padding: 10px;
+    gap: 8px; 
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+
+.tooltip {
+    position: absolute;
+    padding: 8px;
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+    pointer-events: none;
+    z-index: 1000;
+  } 

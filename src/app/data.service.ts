@@ -69,7 +69,7 @@ export class DataService {
     }
 
 
-    createTimetableSlot(slot: Slot, className: string): void {
+    createTimetableSlot(slot: Slot, className: string, additional_teachers: string[]): void {
         const stored_timetables = sessionStorage.getItem("timetables");
         let timetables = stored_timetables ? JSON.parse(stored_timetables) as Timetable[] : [] as Timetable[];
         const filtered_timetable = timetables.filter(tt => tt.class_name == className);
@@ -81,7 +81,7 @@ export class DataService {
             timetable = filtered_timetable[0];
         }
 
-        timetable.subjects.push({name: slot.name, teacher: slot.teacher, room: slot.room, batchwise: slot.batchwise, batches: slot.batches, num_lectures: slot.num_lectures, slots: []});
+        timetable.subjects.push({name: slot.name, teacher: slot.teacher, additional_teachers: additional_teachers, room: slot.room, batchwise: slot.batchwise, batches: slot.batches, num_lectures: slot.num_lectures, slots: []});
         timetables = timetables.filter(tt => tt.class_name != className);
         timetables.push(timetable);
         console.log(timetables)

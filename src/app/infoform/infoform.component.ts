@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, NgStyle } from '@angular/common';
 import { DataService } from '../data.service';
 import { Subject } from '../Subject';
 import { ActivatedRoute } from '@angular/router';
@@ -9,7 +9,7 @@ import { Timetable } from '../Timetable';
 @Component({
   selector: 'app-infoform',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [NgFor, NgIf, NgStyle],
   templateUrl: './infoform.component.html',
   styleUrl: './infoform.component.css',
   providers: [DataService]
@@ -28,6 +28,10 @@ export class InfoformComponent {
   currentIndex: number = 0
   toAllocate: number[] = [];
   uniqueSlotCombinations: { [key: string]: number[] } = {};
+  additionalTeachers: { [subjectName: string]: string[] } = {};
+  showConflictTooltip: boolean = false;
+  conflictMessage: string = '';
+  tooltipPosition = { x: 0, y: 0 };
   // availableSlots: 
   
   subjectForSlots: Slot[] = []
@@ -40,6 +44,7 @@ export class InfoformComponent {
     this.ttSlots = this.dataService.getTimetableSlots(this.class) ? this.dataService.getTimetableSlots(this.class).subjects : [];
     console.log(this.ttSlots)
     this.ttSlots.forEach((slot:any, index:number) => {
+      this.additionalTeachers[slot.name] = slot.additional_teachers ? slot.additional_teachers : [];
       this.toAllocate[index] = slot.num_lectures - slot.slots.length;
       slot.slots.forEach((allocatedSlot:any) => {
           const uniqueSlot = `${allocatedSlot.day}#${allocatedSlot.time_slot}`;
@@ -50,6 +55,7 @@ export class InfoformComponent {
       });
     });
     console.log(this.toAllocate)
+    console.log(this.additionalTeachers)
   }
 
   addSubject(subject: HTMLSelectElement): void {
@@ -76,7 +82,7 @@ export class InfoformComponent {
     this.subjectForSlots.push(newSlot)
     // console.log(this.subjectForSlots);
   }
-
+  
   onBatchwiseChange(subject: string, batchwise: HTMLInputElement): void {
     // check if it is already batchwise or not, and what kind of change is coming
     let currentSlots = this.subjectForSlots.filter(slot => slot.name == subject);
@@ -96,6 +102,17 @@ export class InfoformComponent {
     }
   }
 
+  addTeacher(subjectName: string, teacherName: string) {
+    if (!teacherName) return;
+    
+    
+    if (!this.additionalTeachers[subjectName]) {
+        this.additionalTeachers[subjectName] = [];
+    }
+    
+    this.additionalTeachers[subjectName].push(teacherName);
+}
+
 
   createSlot(teacher: HTMLSelectElement, room: HTMLSelectElement, batchwise: HTMLInputElement, lectures: HTMLSelectElement, subject: Slot): void {
     // let batchesArr = batches.value.split(",");
@@ -107,7 +124,7 @@ export class InfoformComponent {
     subject.batchwise = batchwise.checked;
     subject.num_lectures = Number(lectures.value);
     subject.room = room.value;
-    this.dataService.createTimetableSlot(subject, this.class)
+    this.dataService.createTimetableSlot(subject, this.class, this.additionalTeachers[subject.name])
     this.subjectForSlots = this.subjectForSlots.filter(slot => {
       slot.name !== subject.name && slot.slot_id !== subject.slot_id
     })
@@ -130,10 +147,10 @@ export class InfoformComponent {
   }
 
   allowDrop(ev : any, time_slot: string, day: string) {
-    const slot = this.ttSlots[this.currentIndex];
+    const currentSlot = this.ttSlots[this.currentIndex];
 
     const conflicts = this.dataService.getDataForTimeSlots(day, time_slot, this.class).filter(data =>
-      data.teacher === slot.teacher || data.room === slot.room
+      data.teacher === currentSlot.teacher || data.room === currentSlot.room
     );
     
     let batchConflict = false;
@@ -150,22 +167,22 @@ export class InfoformComponent {
       );
 
       if (existingSlotIndex !== -1) {
-          if (slot.room === slot.room) {
+          if (slot.room === currentSlot.room) {
               roomConflict = true;
           }
 
-          if (slot.teacher === slot.teacher) {
+          if (slot.teacher === currentSlot.teacher) {
               teacherConflict = true;
           }
 
-          if (slot.batchwise && slot.batchwise) {
+          if (slot.batchwise && currentSlot.batchwise) {
               const commonBatches = slot.batches.filter((batch: string) =>
                   slot.batches.includes(batch)
               );
               if (commonBatches.length > 0) {
                   batchConflict = true;
               }
-          } else if (!slot.batchwise || !slot.batchwise) {
+          } else if (!slot.batchwise || !currentSlot.batchwise) {
               batchConflict = true;
           }
           if (roomConflict || teacherConflict || batchConflict) {
@@ -175,10 +192,36 @@ export class InfoformComponent {
   }
 
     if (conflicts.length > 0 || batchConflict || roomConflict || teacherConflict) {
+      this.showConflictTooltip = true;
+      this.tooltipPosition = { x: ev.clientX + 50, y: ev.clientY + 50 };
+      this.conflictMessage = this.getConflictMessage(conflicts, roomConflict, teacherConflict, batchConflict);
       return;
     }
     ev.preventDefault();
   }
+
+  onDragLeave() {
+    this.showConflictTooltip = false;
+  }
+
+  getConflictMessage(conflicts: any[], room: boolean, teacher: boolean, batch: boolean): string {
+    const messages = conflicts.map(conflict => {
+        if (conflict.teacher === this.ttSlots[this.currentIndex].teacher) {
+            return `Teacher ${conflict.teacher} is already assigned at this time.`;
+        }
+        if (conflict.room === this.ttSlots[this.currentIndex].room) {
+            return `Room ${conflict.room} is occupied at this time.`;
+        }
+        return ''; 
+    });
+
+    // console.log(room, teacher, batch)
+    if (room) messages.push("Room conflict with an existing slot.");
+    if (teacher) messages.push("Teacher conflict with an existing slot.");
+    if (batch) messages.push("Batch conflict with an overlapping batch.");
+
+    return messages.filter(msg => msg).join(" ");
+}
 
   drop(ev: any, slot: string, day: string) {
     ev.preventDefault();

@@ -11,7 +11,7 @@
             <div class="day-name">{{day}}</div>
             <div *ngFor="let slot of timeSlots" class="timeslot">
                 <!-- <div>{{slot}}</div> -->
-                <div class="slotHolderGrid" (dragover)="allowDrop($event, slot, day)" (drop)="drop($event, slot, day)" [id]="day+'#'+slot">
+                <div class="slotHolderGrid" (dragover)="allowDrop($event, slot, day)" (drop)="drop($event, slot, day)" [id]="day+'#'+slot" (dragleave)="onDragLeave()">
                     <div class="slotsss" [id]="day+'#'+slot" *ngIf="uniqueSlotCombinations[day + '#' + slot] && uniqueSlotCombinations[day + '#' + slot].length > 0">
                         <div
                             class="slot"
@@ -36,7 +36,9 @@
         <div class="slotHolder" *ngFor="let slot of ttSlots, let index = index">
             <div class="slot" draggable="true" (dragstart)="drag($event, index)" [id]="'slot'+slot.name+'-'+index+'-'+index2" *ngFor="let i of getNumberArray(toAllocate[index]), let index2 = index">
                 <div>{{slot.name}}</div>
-                <div>{{slot.teacher}}</div>
+                <div>{{slot.teacher}},
+                    <span *ngFor="let teacher of additionalTeachers[slot.name]">{{teacher}},</span>
+                </div>
                 <div *ngIf="slot.batchwise" class="batchSlot">
                     <div *ngFor="let batch of slot.batches">{{batch}},</div>
                 </div>
@@ -53,6 +55,15 @@
                             <option value="" selected disabled hidden>Choose Faculty</option>
                             <option *ngFor="let teacher of teachers" [value]="teacher.name">{{teacher.name}}</option>
                         </select>
+                        <input type="text" placeholder="Add Additional Teacher" #additionalTeacherInput>
+                        <button (click)="addTeacher(subject.name, additionalTeacherInput.value); additionalTeacherInput.value=''">Add Teacher</button>
+
+                        <div *ngIf="additionalTeachers[subject.name]">
+                            <h4>Additional Teachers:</h4>
+                            <ul>
+                                <li *ngFor="let teacher of additionalTeachers[subject.name]">{{teacher}}</li>
+                            </ul>
+                        </div>
                         <select name="room" id="rselector" #room>
                             <option value="" selected disabled hidden>Choose Room</option>
                             <option *ngFor="let room of rooms" [value]="room.name">{{room.name}}</option>
@@ -84,4 +95,8 @@
 </div>
 <div>
     <button (click)="saveTimetable()">Save Timetable</button>
+</div>
+
+<div *ngIf="showConflictTooltip" [ngStyle]="{'top.px': tooltipPosition.y, 'left.px': tooltipPosition.x}" class="tooltip">
+    {{ conflictMessage }}
 </div>
